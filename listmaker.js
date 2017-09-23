@@ -69,9 +69,9 @@ const allowDrop = (event) => {
     event.preventDefault();
 }
 
-document.getElementById('addItemToList').addEventListener('click', () => {
+const addItemToList = () => {
     addListItem(document.getElementById('itemInput').value);
-});
+};
 
 const loadItems = () => {
     const items = localStorage.getItem(storageKey);    
@@ -79,4 +79,9 @@ const loadItems = () => {
         listItems = JSON.parse(items);
         updateList();
     }
+};
+
+const clearList = () => {
+    listItems = [];
+    updateList();
 };
