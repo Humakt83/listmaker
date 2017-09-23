@@ -6,7 +6,7 @@
 <body>
     <input type="text" id="itemInput" placeholder="Type item name here">
     <input type="button" id="addItemToList" value="ADD ITEM">
-    <div id="listItems">
+    <div id="listItems" ondrop="dropAndSort(event)" ondragover="allowDrop(event)">
     </div>
     <script src="listmaker.js"></script>
 </body>
