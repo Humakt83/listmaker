@@ -1,0 +1,31 @@
+body {
+    background-color: rgb(235, 235, 235);
+    font-size: 14px;
+}
+
+.listItem {
+    border-radius: 3px;
+    border: 1px solid rgb(200, 200, 200);
+    background-color: rgb(250, 250, 250);
+    padding-left: 1px;
+    margin-top: 1px;
+    width: 400px;
+}
+
+.deleteItem {
+    float: right;
+    color: rgb(225, 170, 170);
+    font-weight: 900;
+    margin-right: 5px;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 55px;
+    cursor: pointer;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top: 1px;
+    font-size: 10px;
+}
+
+.deleteItem:hover {
+    background-color: rgb(200, 200, 200);
+}
