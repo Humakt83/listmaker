@@ -1,3 +1,4 @@
+const storageKey = 'listmakerlist';
 var listItems = [];
 var draggingIndex = -1;
 
@@ -9,8 +10,7 @@ const addListItem = (item) => {
     const id = document.getElementsByClassName('listItem').length + 1;
     const listItem = {id: id, item: item};
     listItems.push(listItem);
-    const element = createElement(listItem);
-    document.getElementById('listItems').appendChild(element);
+    updateList();
 };
 
 const createElement = (item) => {
@@ -34,6 +34,7 @@ const updateList = () => {
     listItems.forEach((item, index) => {
         listParent.appendChild(createElement(item));       
     });
+    localStorage.setItem(storageKey, JSON.stringify(listItems));
 };
 
 const dropAndSort = (event) => {
@@ -71,3 +72,11 @@ const allowDrop = (event) => {
 document.getElementById('addItemToList').addEventListener('click', () => {
     addListItem(document.getElementById('itemInput').value);
 });
+
+const loadItems = () => {
+    const items = localStorage.getItem(storageKey);    
+    if (!!items) {
+        listItems = JSON.parse(items);
+        updateList();
+    }
+};
