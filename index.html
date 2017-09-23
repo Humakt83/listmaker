@@ -6,9 +6,12 @@
 <body onload="loadItems()">
     <input type="text" id="itemInput" placeholder="Type item name here">
     <input type="button" id="addItemToList" value="ADD ITEM" onclick="addItemToList()">
+    <input type="button" onclick="showListAsText()" value="SHOW LIST AS TEXT">
     <input type="button" onclick="clearList()" value="CLEAR LIST">
-    <div id="listItems" ondrop="dropAndSort(event)" ondragover="allowDrop(event)">
-    </div>    
+    <div class="content">        
+        <div id="listItems" ondrop="dropAndSort(event)" ondragover="allowDrop(event)"></div>        
+        <div id="textList"></div>
+    </div>
     <script src="listmaker.js"></script>
 </body>
 </html>

@@ -85,3 +85,8 @@ const clearList = () => {
     listItems = [];
     updateList();
 };
+
+const showListAsText = () => {
+    const text = listItems.reduce((previous, current) => previous + `<br>${current.id}. ${current.item}`, '');
+    document.getElementById('textList').innerHTML = text;
+}
