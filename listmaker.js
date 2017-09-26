@@ -41,7 +41,7 @@ const dropAndSort = (event) => {
     const matchingIndex = findMatchingIndex(event);
     if (matchingIndex !== draggingIndex) {
         const draggedItem = listItems.find(item => item.id === draggingIndex);
-        let items = listItems.filter(item => item.id !== draggingIndex);
+        const items = listItems.filter(item => item.id !== draggingIndex);
         draggedItem.id = matchingIndex;
         items.forEach((item, index) => { 
             if ((index + 1) >= matchingIndex) {
@@ -69,9 +69,10 @@ const allowDrop = (event) => {
     event.preventDefault();
 }
 
-const addItemToList = () => {
+document.getElementById('addItemForm').addEventListener('submit', (event) =>  {
+    event.preventDefault();
     addListItem(document.getElementById('itemInput').value);
-};
+});
 
 const loadItems = () => {
     const items = localStorage.getItem(storageKey);    

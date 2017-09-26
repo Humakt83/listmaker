@@ -3,9 +3,11 @@
     <title>Listmaker</title>
     <link rel="stylesheet" href="style.css"></style>    
 </head>
-<body onload="loadItems()">
-    <input type="text" id="itemInput" placeholder="Type item name here">
-    <input type="button" id="addItemToList" value="ADD ITEM" onclick="addItemToList()">
+<body onload="loadItems()">    
+    <form id="addItemForm">
+        <input type="text" id="itemInput" placeholder="Type item name here">
+        <input type="submit" id="addItemToList" value="ADD ITEM">
+    </form>
     <input type="button" onclick="showListAsText()" value="SHOW LIST AS TEXT">
     <input type="button" onclick="clearList()" value="CLEAR LIST">
     <div class="content">        

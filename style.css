@@ -8,6 +8,11 @@ body {
     float: left;
 }
 
+#addItemForm {
+    margin-top: 15px;
+    display: inline-block;
+}
+
 #textList {
     background-color: white;
     width: 500px;
