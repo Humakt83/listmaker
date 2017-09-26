@@ -1,4 +1,5 @@
 const storageKey = 'listmakerlist';
+const itemIdPrefix = 'item';
 var listItems = [];
 var draggingIndex = -1;
 
@@ -16,11 +17,30 @@ const addListItem = (item) => {
 const createElement = (item) => {
     const element = document.createElement('div');
     element.className = 'listItem';
-    element.innerHTML = `<span class="elementId">${item.id}.</span> ${item.item} <div class="deleteItem" onclick="deleteThis(${item.id})">x</div>`;
+    element.innerHTML = `<span class="elementId">${item.id}.</span> 
+        <span id="${itemIdPrefix + item.id}">${item.item}</span>
+        <div class="deleteItem" onclick="deleteThis(${item.id})" title="Remove">x</div>
+        <div class="editItem" onclick="editThis(${item.id})" title="Edit">E</div>
+        `;
     element.draggable = true;
     element.addEventListener('dragstart', setDraggingIndex);
     return element;
 }
+
+const editThis = (itemId) => {
+    const element = document.getElementById(itemIdPrefix + itemId);
+    const item = listItems.filter(item => item.id === itemId)[0];
+    element.innerHTML = `<form class="editForm" onclick="event.preventDefault; event.stopPropagating;" id="editForm${itemId}">
+        <input id="editField${itemId}" type="text" value="${item.item}">
+        </form>`;
+    const formElement = document.getElementById('editForm' + itemId);
+    formElement.addEventListener('submit', (event) => {
+        event.preventDefault();
+        item.item = document.getElementById('editField' + itemId).value;
+        updateList();
+    });
+    formElement.children[0].focus();
+};
 
 const deleteThis = (itemIndex) => {
     listItems = listItems.filter(val => val.id !== itemIndex);

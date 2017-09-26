@@ -29,6 +29,7 @@ body {
     width: 500px;
 }
 
+.editItem,
 .deleteItem {
     float: right;
     color: rgb(225, 170, 170);
@@ -45,4 +46,8 @@ body {
 
 .deleteItem:hover {
     background-color: rgb(200, 200, 200);
+}
+
+.editForm {
+    display: inline-block;
 }
