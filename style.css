@@ -6,8 +6,18 @@
 html,
 body {
     background-color: rgb(235, 235, 235);
+    background: linear-gradient(to bottom left, rgb(165, 165, 165), rgb(235, 235, 235) 15%);
     font-size: 14px;
     height: 100%;    
+}
+
+input[type=button],
+input[type=submit] {
+    background-color: rgb(165, 165, 165);
+    background: linear-gradient(to bottom left, rgb(105, 105, 105), rgb(165, 165, 165) 15%);
+    color: white;
+    font-weight: bold;
+    padding: 1px 3px 1px 3px;
 }
 
 #textList,
