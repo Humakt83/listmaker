@@ -3,26 +3,33 @@
     <title>Listmaker</title>
     <link rel="stylesheet" href="style.css"></style>    
 </head>
-<body onload="loadItems()">    
-    <form id="addItemForm">
-        <input type="text" id="itemInput" placeholder="Type item name here">
-        <input type="submit" id="addItemToList" value="ADD ITEM">
-    </form>
-    <input type="button" onclick="openPaste()" value="PASTE LIST">
-    <input type="button" onclick="showListAsText()" value="SHOW LIST AS TEXT">    
-    <input type="button" onclick="clearList()" value="CLEAR LIST">
-    <div class="content">        
-        <div id="listItems" ondrop="dropAndSort(event)" ondragover="allowDrop(event)"></div>        
-        <div id="textList"></div>
-    </div>
-    <div id="curtain" onclick="closeCurtain()">
-        <div class="pasteContent" onclick="event.stopPropagation()">
-            <p>List items are separated by line break</p>
-            <textarea id="pasteArea"></textarea>
-            <input type="button" onclick="addPasteList()" value="ADD LIST AS IS">
-            <input type="button" onclick="addPasteList(true)" value="ADD LIST WITHOUT ORDER NUMBERS">
+<body onload="init()">
+    <div id="wrap">    
+    <div id="main">
+        <form id="addItemForm">
+            <input type="text" id="itemInput" placeholder="Type item name here">
+            <input type="submit" id="addItemToList" value="ADD ITEM">
+        </form>
+        <input type="button" onclick="openPaste()" value="PASTE LIST">
+        <input type="button" onclick="showListAsText()" value="SHOW LIST AS TEXT">    
+        <input type="button" onclick="clearList()" value="CLEAR LIST">
+
+        <div class="content">        
+            <div id="listItems" ondrop="dropAndSort(event)" ondragover="allowDrop(event)"></div>        
+            <div id="textList"></div>
+        </div>
+
+        <div id="curtain" onclick="closeCurtain()">
+            <div class="pasteContent" onclick="event.stopPropagation()">
+                <p>List items are separated by line break</p>
+                <textarea id="pasteArea"></textarea>
+                <input type="button" onclick="addPasteList()" value="ADD LIST AS IS">
+                <input type="button" onclick="addPasteList(true)" value="ADD LIST WITHOUT ORDER NUMBERS">
+            </div>
         </div>
     </div>
+    </div>
+
     <script src="listmaker.js"></script>
 </body>
 </html>

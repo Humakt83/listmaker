@@ -1,4 +1,5 @@
 const storageKey = 'listmakerlist';
+const storageNotificationRemoved = 'listmakernotification';
 const itemIdPrefix = 'item';
 var listItems = [];
 var draggingIndex = -1;
@@ -136,4 +137,26 @@ const addPasteList = (stripNumbers) => {
     updateList();
     document.getElementById('pasteArea').value = '';
     closeCurtain();
+}
+
+const removeFooter = () => {
+    localStorage.setItem(storageNotificationRemoved, true);
+    document.getElementById('footer').remove();
+}
+
+const showFooterIfNeeded = () => {
+    if (!!localStorage.getItem(storageNotificationRemoved)) {
+        return;
+    }
+    const footer = document.createElement('div');
+    footer.id = 'footer';
+    footer.innerHTML = `
+        <span>Please note that this site utilizes your browser's localstorage to store the list you have entered so it remains here on your next visit as well.</span>
+        <div class="removeFooter" onclick="removeFooter()" title="Remove">Remove this</div>`;
+    document.getElementsByTagName('body')[0].appendChild(footer);
+}
+
+const init = () => {
+    loadItems();
+    showFooterIfNeeded();
 }
