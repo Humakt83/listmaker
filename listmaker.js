@@ -1,11 +1,12 @@
 const storageKey = 'listmakerlist';
 const storageNotificationRemoved = 'listmakernotification';
 const itemIdPrefix = 'item';
-var listItems = [];
-var draggingIndex = -1;
+let listItems = [];
+let draggingIndex = -1;
 
 const setDraggingIndex = (event) => {
     draggingIndex = findMatchingIndex(event);
+    event.dataTransfer.setData("text/plain", event.target.id);
 };
 
 const addListItem = (item) => {
@@ -52,7 +53,7 @@ const deleteThis = (itemIndex) => {
 const updateList = () => {
     const listParent = document.getElementById('listItems');
     listParent.innerHTML = '';
-    listItems.forEach((item, index) => {
+    listItems.forEach((item) => {
         listParent.appendChild(createElement(item));       
     });
     localStorage.setItem(storageKey, JSON.stringify(listItems));
