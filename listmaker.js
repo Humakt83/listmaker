@@ -22,23 +22,29 @@ const createElement = (item) => {
     element.innerHTML = `<span class="elementId">${item.id}.</span> 
         <span id="${itemIdPrefix + item.id}">${item.item}</span>
         <div class="deleteItem" onclick="deleteThis(${item.id})" title="Remove">x</div>
-        <div class="editItem" onclick="editThis(${item.id})" title="Edit">E</div>
+        <div class="editItem" onclick="editThis(event, ${item.id})" title="Edit">E</div>
         `;
     element.draggable = true;
-    element.addEventListener('dragstart', setDraggingIndex);
+    element.addEventListener('dragstart', setDraggingIndex, item.id);
     return element;
 }
 
-const editThis = (itemId) => {
+const editThis = (event, itemId) => {
+    event.stopPropagation();
     const element = document.getElementById(itemIdPrefix + itemId);
+    element.removeEventListener('dragstart', setDraggingIndex, itemId);
     const item = listItems.filter(item => item.id === itemId)[0];
-    element.innerHTML = `<form class="editForm" onclick="event.preventDefault; event.stopPropagating;" id="editForm${itemId}">
+    element.innerHTML = `<form class="editForm" onclick="event.preventDefault(); event.stopPropagation();" id="editForm${itemId}" ondragstart="return false;">
         <input id="editField${itemId}" type="text" value="${item.item}">
         </form>`;
     const formElement = document.getElementById('editForm' + itemId);
+    element.parentElement.draggable = false;
+    formElement.draggable = false;
     formElement.addEventListener('submit', (event) => {
         event.preventDefault();
+        element.draggable = true;
         item.item = document.getElementById('editField' + itemId).value;
+        element.addEventListener('dragstart', setDraggingIndex);
         updateList();
     });
     formElement.children[0].focus();
