@@ -10,23 +10,3 @@ body {
     font-size: 14px;
     height: 100%;    
 }
-
-.pasteContent {
-    margin-top: 100px;
-    position: fixed;
-    left: 50%;
-    width: 700px;
-    margin-left: -350px;
-    background-color: white;
-    border: 2px solid rgb(200, 200, 200);
-    color: black;
-    padding-left: 10px;
-    padding-bottom: 5px;
-}
-
-#pasteArea {
-    display: block;
-    width: 675px;
-    height: 300px;
-}
-

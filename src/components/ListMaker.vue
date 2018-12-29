@@ -2,28 +2,31 @@
   <div v-if="fetched">
     <input type="text" ref="itemInput" id="itemInput" placeholder="Type item name here">
     <input type="submit" id="addItemToList" value="ADD ITEM" @click="addItem()">
-    <input type="submit" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
+    <input type="button" @click="openPaste = true" value="PASTE LIST">
+    <input type="button" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
     <div class="content">
       <List :listItems="items" />
       <div id="textList" v-show="showTextList">
         <p v-html="textList" />
       </div>
     </div>
+    <paste-list v-if="openPaste" @cancel="openPaste = false" @addPasteList="addPasteList" />
   </div>
 </template>
 
 <script>
-import draggable from 'vuedraggable'
 import List from './List'
+import PasteList from './PasteList'
 
 export default {
   name: 'ListMaker',
-  components: {draggable, List},
+  components: {List, PasteList},
   data () {
     return {
       fetched: false,
       items: [],
-      showTextList: false
+      showTextList: false,
+      openPaste: false
     }
   },
   computed: {
@@ -44,6 +47,10 @@ export default {
     },
     toggleShowListAsText () {
       this.showTextList = !this.showTextList
+    },
+    addPasteList (list) {
+      this.items = this.items.concat(list)
+      this.openPaste = false
     }
   }
 }
