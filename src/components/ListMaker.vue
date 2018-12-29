@@ -4,6 +4,7 @@
     <input type="submit" id="addItemToList" value="ADD ITEM" @click="addItem()">
     <input type="button" @click="openPaste = true" value="PASTE LIST">
     <input type="button" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
+    <input type="button" value="CLEAR LIST" @click="clearList">
     <div class="content">
       <List />
       <div id="textList" v-show="showTextList">
@@ -53,6 +54,9 @@ export default {
     addPasteList (list) {
       this.$store.dispatch('updateList', this.getListItems.concat(list))
       this.openPaste = false
+    },
+    clearList () {
+      this.$store.dispatch('updateList', [])
     }
   }
 }
