@@ -15,9 +15,14 @@ export default {
   name: 'List',
   components: {draggable},
   props: {
-    items: {
+    listItems: {
       required: true,
       type: Array
+    }
+  },
+  data () {
+    return {
+      items: [].concat(this.listItems)
     }
   },
   methods: {
@@ -26,6 +31,11 @@ export default {
       this.$refs.itemInput.value = ''
       this.items.push(item)
       this.$store.dispatch('updateList', this.items)
+    }
+  },
+  watch: {
+    items: function (val) {
+      this.$store.dispatch('updateList', val)
     }
   }
 }

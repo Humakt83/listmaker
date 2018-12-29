@@ -10,7 +10,7 @@ const state = {
 
 const mutations = {
   updateItemList (state, items) {
-    state.listItems = items
+    Vue.set(state, 'listItems', items)
     updateList(state.listItems)
   }
 }

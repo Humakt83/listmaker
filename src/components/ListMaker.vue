@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div v-if="fetched">
     <input type="text" ref="itemInput" id="itemInput" placeholder="Type item name here">
     <input type="submit" id="addItemToList" value="ADD ITEM" @click="addItem()">
     <div class="content">
-      <List :items="items" />
+      <List :listItems="items" />
       <div id="textList"></div>
     </div>
   </div>
@@ -11,7 +11,6 @@
 
 <script>
 import draggable from 'vuedraggable'
-import { mapGetters } from 'vuex'
 import List from './List'
 
 export default {
@@ -19,22 +18,20 @@ export default {
   components: {draggable, List},
   data () {
     return {
+      fetched: false,
       items: []
     }
   },
-  cómputed: {
-    ...mapGetters(['getListItems'])
-  },
   async created () {
     await this.$store.dispatch('fetchStoredList')
-    this.items = this.getListItems || []
+    this.items = this.$store.getters.getListItems
+    this.fetched = true
   },
   methods: {
     addItem () {
       const item = this.$refs.itemInput.value
       this.$refs.itemInput.value = ''
       this.items.push(item)
-      this.$store.dispatch('updateList', this.items)
     }
   }
 }
