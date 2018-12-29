@@ -10,4 +10,4 @@ export const getStoredList = () => {
 
 export const removeNotification = () => localStorage.setItem(STORAGE_NOTIFICATION_REMOVED, true)
 
-export const isNotificationAcknowledged = () => localStorage.getItem(STORAGE_NOTIFICATION_REMOVED)
+export const isNotificationAcknowledged = () => localStorage.getItem(STORAGE_NOTIFICATION_REMOVED) || false

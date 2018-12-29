@@ -5,12 +5,28 @@
     <div id="main">
       <router-view/>
     </div>
+    <local-store-notification v-if="!isNotificationRemoved" />
   </div>
 </template>
 
 <script>
+import LocalStoreNotification from './components/LocalStoreNotification'
+import {mapGetters} from 'vuex'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: {LocalStoreNotification},
+  computed: {
+    ...mapGetters(['isNotificationRemoved'])
+  },
+  data () {
+    return {
+      notificationRemoved: true
+    }
+  },
+  async created () {
+    await this.$store.dispatch('fetchNotificationAcknowledged')
+  }
 }
 </script>
 
