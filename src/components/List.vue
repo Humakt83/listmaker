@@ -3,6 +3,7 @@
     <draggable v-model="items" @start="drag=true" @end="drag=false">
       <div class="listItem" v-for="(item, index) of items" :key="index">
         {{`${index + 1}. ${item}`}}
+        <div class="deleteItem" @click="deleteItem(index)" title="Remove">x</div>
       </div>
     </draggable>
   </div>
@@ -26,16 +27,17 @@ export default {
     }
   },
   methods: {
-    addItem () {
-      const item = this.$refs.itemInput.value
-      this.$refs.itemInput.value = ''
-      this.items.push(item)
+    deleteItem (index) {
+      this.items.splice(index, 1)
       this.$store.dispatch('updateList', this.items)
     }
   },
   watch: {
     items: function (val) {
       this.$store.dispatch('updateList', val)
+    },
+    listItems: function (val) {
+      this.items = [].concat(val)
     }
   }
 }
@@ -57,5 +59,28 @@ export default {
   height: 25px;
   font-size: 17px;
   text-align: left;
+}
+
+.editItem,
+.deleteItem {
+    float: right;
+    color: rgb(225, 170, 170);
+    font-weight: 900;
+    margin-right: 5px;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 55px;
+    cursor: pointer;
+    padding-left: 3px;
+    padding-right: 3px;
+    margin-top: 1px;
+    font-size: 10px;
+    height: 23px;
+    width: 23px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.deleteItem:hover {
+    background-color: rgb(200, 200, 200);
 }
 </style>

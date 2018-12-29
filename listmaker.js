@@ -115,11 +115,6 @@ const clearList = () => {
     updateList();
 };
 
-const showListAsText = () => {
-    const text = listItems.reduce((previous, current) => previous + `<br>${current.id}. ${current.item}`, '');
-    document.getElementById('textList').innerHTML = text;
-}
-
 const openPaste = () => {
     document.getElementById('curtain').style = 'display: block';
 }
@@ -146,24 +141,3 @@ const addPasteList = (stripNumbers) => {
     closeCurtain();
 }
 
-const removeFooter = () => {
-    localStorage.setItem(storageNotificationRemoved, true);
-    document.getElementById('footer').remove();
-}
-
-const showFooterIfNeeded = () => {
-    if (!!localStorage.getItem(storageNotificationRemoved)) {
-        return;
-    }
-    const footer = document.createElement('div');
-    footer.id = 'footer';
-    footer.innerHTML = `
-        <span>Please note that this site utilizes your browser's localstorage to store the list you have entered so it remains here on your next visit as well.</span>
-        <div class="removeFooter" onclick="removeFooter()" title="Remove">Remove this</div>`;
-    document.getElementsByTagName('body')[0].appendChild(footer);
-}
-
-const init = () => {
-    loadItems();
-    showFooterIfNeeded();
-}
