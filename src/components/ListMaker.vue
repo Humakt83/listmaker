@@ -2,9 +2,12 @@
   <div v-if="fetched">
     <input type="text" ref="itemInput" id="itemInput" placeholder="Type item name here">
     <input type="submit" id="addItemToList" value="ADD ITEM" @click="addItem()">
+    <input type="submit" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
     <div class="content">
       <List :listItems="items" />
-      <div id="textList"></div>
+      <div id="textList" v-show="showTextList">
+        <p v-html="textList" />
+      </div>
     </div>
   </div>
 </template>
@@ -19,7 +22,13 @@ export default {
   data () {
     return {
       fetched: false,
-      items: []
+      items: [],
+      showTextList: false
+    }
+  },
+  computed: {
+    textList () {
+      return this.items.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
     }
   },
   async created () {
@@ -32,6 +41,9 @@ export default {
       const item = this.$refs.itemInput.value
       this.$refs.itemInput.value = ''
       this.items.push(item)
+    },
+    toggleShowListAsText () {
+      this.showTextList = !this.showTextList
     }
   }
 }
@@ -49,9 +61,11 @@ input[type=submit] {
 }
 
 #textList {
+  display: inline-block;
   background-color: white;
   width: 500px;
   margin-left: 15px;
   padding-left: 10px;
+  text-align: left;
 }
 </style>

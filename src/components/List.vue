@@ -43,6 +43,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#listItems {
+  display: inline-block;
+}
 .listItem {
   border-radius: 3px;
   border: 1px solid rgb(200, 200, 200);

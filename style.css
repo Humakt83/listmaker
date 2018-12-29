@@ -67,18 +67,3 @@ body {
     height: 300px;
 }
 
-#footer {
-    position: relative;
-    margin-top: -20px;
-    height: 20px;
-    clear: both;
-    background: linear-gradient(to bottom, rgba(100, 100, 100, 0.5), rgba(200, 200, 200, 0.5), rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 1));
-}
-
-#footer > span {
-    font-style: italic;
-    display: inline-block;
-    padding-left: 15px;
-    padding-top: 3px;
-}
-
