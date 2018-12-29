@@ -62,10 +62,13 @@ input[type=submit] {
 
 #textList {
   display: inline-block;
-  background-color: white;
+  background-color: #eeeeee;
   width: 500px;
   margin-left: 15px;
-  padding-left: 10px;
   text-align: left;
+  user-select: all;
+  padding: 5px 30px;
+  border-radius: 30px;
+  border: 1px solid black;
 }
 </style>
