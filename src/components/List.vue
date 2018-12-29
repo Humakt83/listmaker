@@ -14,45 +14,51 @@
 <script>
 import draggable from 'vuedraggable'
 import EditItem from './EditItem'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'List',
   components: {draggable, EditItem},
-  props: {
-    listItems: {
-      required: true,
-      type: Array
-    }
-  },
   data () {
     return {
-      items: [].concat(this.listItems),
       editedItem: -1,
-      editedValue: ''
+      editedValue: '',
+      items: []
     }
+  },
+  created () {
+    this.items = [].concat(this.getListItems)
+  },
+  computed: {
+    ...mapGetters(['getListItems'])
   },
   methods: {
     deleteItem (index) {
-      this.items.splice(index, 1)
-      this.$store.dispatch('updateList', this.items)
+      const list = this.getListItems
+      list.splice(index, 1)
+      this.$store.dispatch('updateList', list)
     },
     editItem (index) {
       this.editedItem = index
-      this.editedValue = this.items[index]
+      this.editedValue = this.getListItems[index]
     },
     changeItem (value) {
-      this.items[this.editedItem] = value
+      const list = this.items
+      list[this.editedItem] = value
       this.editedItem = -1
-      this.$store.dispatch('updateList', this.items)
+      this.$store.dispatch('updateList', list)
     }
   },
   watch: {
-    items: function (val) {
-      this.$store.dispatch('updateList', val)
+    getListItems: function (newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.items = newVal
+      }
     },
-    listItems: function (val) {
-      this.items = [].concat(val)
-      this.editedItem = -1
+    items: function (newVal) {
+      if (newVal !== this.getListItems) {
+        this.$store.dispatch('updateList', newVal)
+      }
     }
   }
 }

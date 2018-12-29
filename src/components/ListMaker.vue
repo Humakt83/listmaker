@@ -5,7 +5,7 @@
     <input type="button" @click="openPaste = true" value="PASTE LIST">
     <input type="button" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
     <div class="content">
-      <List :listItems="items" />
+      <List />
       <div id="textList" v-show="showTextList">
         <p v-html="textList" />
       </div>
@@ -17,6 +17,7 @@
 <script>
 import List from './List'
 import PasteList from './PasteList'
+import {mapGetters} from 'vuex'
 
 export default {
   name: 'ListMaker',
@@ -24,32 +25,33 @@ export default {
   data () {
     return {
       fetched: false,
-      items: [],
       showTextList: false,
       openPaste: false
     }
   },
   computed: {
+    ...mapGetters(['getListItems']),
     textList () {
-      return this.items.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
+      return this.getListItems.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
     }
   },
   async created () {
     await this.$store.dispatch('fetchStoredList')
-    this.items = this.$store.getters.getListItems
     this.fetched = true
   },
   methods: {
     addItem () {
       const item = this.$refs.itemInput.value
       this.$refs.itemInput.value = ''
-      this.items.push(item)
+      const items = this.getListItems
+      items.push(item)
+      this.$store.dispatch('updateList', items)
     },
     toggleShowListAsText () {
       this.showTextList = !this.showTextList
     },
     addPasteList (list) {
-      this.items = this.items.concat(list)
+      this.$store.dispatch('updateList', this.getListItems.concat(list))
       this.openPaste = false
     }
   }
