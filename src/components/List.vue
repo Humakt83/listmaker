@@ -27,20 +27,20 @@ export default {
     }
   },
   created () {
-    this.items = [].concat(this.getListItems)
+    this.items = [].concat(this.getList.items)
   },
   computed: {
-    ...mapGetters(['getListItems'])
+    ...mapGetters(['getList', 'getItemsInList'])
   },
   methods: {
     deleteItem (index) {
-      const list = this.getListItems
-      list.splice(index, 1)
+      const list = this.getList
+      list.items.splice(index, 1)
       this.$store.dispatch('updateList', list)
     },
     editItem (index) {
       this.editedItem = index
-      this.editedValue = this.getListItems[index]
+      this.editedValue = this.getList.items[index]
     },
     changeItem (value) {
       const list = this.items
@@ -50,14 +50,14 @@ export default {
     }
   },
   watch: {
-    getListItems: function (newVal, oldVal) {
+    getItemsInList: function (newVal, oldVal) {
       if (newVal !== oldVal) {
         this.items = newVal
       }
     },
     items: function (newVal) {
-      if (newVal !== this.getListItems) {
-        this.$store.dispatch('updateList', newVal)
+      if (newVal !== this.getList.items && newVal) {
+        this.$store.dispatch('updateList', {name: this.getList.name, items: newVal})
       }
     }
   }

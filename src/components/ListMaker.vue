@@ -4,6 +4,7 @@
     <input type="submit" id="addItemToList" value="ADD ITEM" @click="addItem()">
     <input type="button" @click="openPaste = true" value="PASTE LIST">
     <input type="button" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
+    <input type="button" value="SAVE LIST" @click="openSave = true">
     <input type="button" value="CLEAR LIST" @click="clearList">
     <div class="content">
       <List />
@@ -12,28 +13,32 @@
       </div>
     </div>
     <paste-list v-if="openPaste" @cancel="openPaste = false" @addPasteList="addPasteList" />
+    <save-list v-if="openSave" @close="openSave = false" :listItems="getList.items" />
   </div>
 </template>
 
 <script>
 import List from './List'
 import PasteList from './PasteList'
+import SaveList from './SaveList'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'ListMaker',
-  components: {List, PasteList},
+  components: {List, PasteList, SaveList},
   data () {
     return {
       fetched: false,
       showTextList: false,
-      openPaste: false
+      openPaste: false,
+      openSave: false,
     }
   },
   computed: {
-    ...mapGetters(['getListItems']),
+    ...mapGetters(['getList']),
     textList () {
-      return this.getListItems.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
+      return !this.getList || !this.getList.items ? []
+        : this.getList.items.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
     }
   },
   async created () {
@@ -44,20 +49,24 @@ export default {
     addItem () {
       const item = this.$refs.itemInput.value
       this.$refs.itemInput.value = ''
-      const items = this.getListItems
-      items.push(item)
-      this.$store.dispatch('updateList', items)
+      const usedList = this.getList
+      usedList.items.push(item)
+      this.$store.dispatch('updateList', usedList)
     },
     toggleShowListAsText () {
       this.showTextList = !this.showTextList
     },
     addPasteList (list) {
-      this.$store.dispatch('updateList', this.getListItems.concat(list))
+      const usedList = this.getList
+      usedList.items = usedList.items.concat(list)
+      this.$store.dispatch('updateList', usedList)
       this.openPaste = false
     },
     clearList () {
-      this.$store.dispatch('updateList', [])
-    }
+      const usedList = this.getList
+      usedList.items = []
+      this.$store.dispatch('updateList', usedList)
+    },
   }
 }
 </script>

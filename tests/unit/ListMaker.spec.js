@@ -10,7 +10,7 @@ const store = new Vuex.Store({
     fetchStoredList: jest.fn()
   },
   getters: {
-    getListItems: () => []
+    getList: () => { return {name: 'default', items: []}}
   }
 })
 
