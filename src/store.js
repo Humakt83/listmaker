@@ -27,6 +27,9 @@ const mutations = {
   },
   setSavedLists (state, value) {
     state.savedLists = value
+  },
+  setActiveList (state, name) {
+    state.activeList = state.savedLists.find(l => l.name === name)
   }
 }
 
@@ -39,9 +42,6 @@ const getters = {
   getSavedListNames: state => {
     return state.savedLists.map(l => l.name)
   },
-  getSavedList: state => name => {
-    return state.savedLists.find(l => l.name === name)
-  }
 }
 
 const actions = {
@@ -60,6 +60,9 @@ const actions = {
   async removeNotification (context) {
     removeNotification()
     context.commit('setNotification', true)
+  },
+  async loadList (context, name) {
+    context.commit('setActiveList', name)
   },
   async fetchSavedLists (context) {
     const savedLists = await getSavedLists()

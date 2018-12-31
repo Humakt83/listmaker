@@ -29,6 +29,7 @@ export default {
       this.$emit('close')
     },
     loadList () {
+      this.$store.dispatch('loadList', this.selected)
       this.$emit('close')
     }
   }
