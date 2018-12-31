@@ -5,6 +5,7 @@
     <input type="button" @click="openPaste = true" value="PASTE LIST">
     <input type="button" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
     <input type="button" value="SAVE LIST" @click="openSave = true">
+    <input type="button" value="LOAD LIST" @click="openLoad = true" :disabled="getSavedListNames.length < 1">
     <input type="button" value="CLEAR LIST" @click="clearList">
     <div class="content">
       <List />
@@ -13,7 +14,8 @@
       </div>
     </div>
     <paste-list v-if="openPaste" @cancel="openPaste = false" @addPasteList="addPasteList" />
-    <save-list v-if="openSave" @close="openSave = false" :listItems="getList.items" />
+    <save-list v-if="openSave" @close="openSave = false" :items="getList.items" />
+    <load-list v-if="openLoad" @close="openLoad = false" />
   </div>
 </template>
 
@@ -21,27 +23,30 @@
 import List from './List'
 import PasteList from './PasteList'
 import SaveList from './SaveList'
+import LoadList from './LoadList'
 import {mapGetters} from 'vuex'
 
 export default {
   name: 'ListMaker',
-  components: {List, PasteList, SaveList},
+  components: {List, PasteList, SaveList, LoadList},
   data () {
     return {
       fetched: false,
       showTextList: false,
       openPaste: false,
       openSave: false,
+      openLoad: false
     }
   },
   computed: {
-    ...mapGetters(['getList']),
+    ...mapGetters(['getList', 'getSavedListNames']),
     textList () {
       return !this.getList || !this.getList.items ? []
         : this.getList.items.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
     }
   },
   async created () {
+    await this.$store.dispatch('fetchSavedLists')
     await this.$store.dispatch('fetchStoredList')
     this.fetched = true
   },
@@ -80,6 +85,10 @@ input[type=submit] {
   color: white;
   font-weight: bold;
   padding: 1px 3px 1px 3px;
+}
+
+input[type=button]:disabled {
+  color: rgb(210, 210, 210)
 }
 
 #textList {

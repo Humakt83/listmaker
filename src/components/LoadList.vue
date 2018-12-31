@@ -1,35 +1,34 @@
 <template>
   <div id="curtain" @click="cancel()">
     <div class="content" @click.stop>
-      <h4>Save List</h4>
-      <form @submit="saveList" class="editForm">
-        <input type="text" v-model="listName">
-        <input type="submit" value="SUBMIT">
-      </form>
+      <h4>Load List</h4>
+      <select v-model="selected">
+        <option disabled value="">Select list to load</option>
+        <option v-for="name of getSavedListNames" :key="name">{{name}}</option>
+      </select>
+      <input type="button" :disabled="selected.length < 1" value="LOAD" @click="loadList">
     </div>
   </div>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
+
 export default {
-  name: 'SaveList',
-  props: {
-    items: {
-      required: true,
-      type: Array
+  name: 'LoadList',
+  data() {
+    return {
+      selected: ''
     }
   },
-  data () {
-    return {
-      listName: ''
-    }
+  computed: {
+    ...mapGetters(['getSavedListNames'])
   },
   methods: {
     cancel () {
       this.$emit('close')
     },
-    saveList () {
-      this.$store.dispatch('addOrUpdateSavedList', {name: this.listName, items: this.items} )
+    loadList () {
       this.$emit('close')
     }
   }
