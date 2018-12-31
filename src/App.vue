@@ -1,17 +1,31 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div id="wrap">
+    </div>
+    <div id="main">
+      <router-view/>
+    </div>
+    <local-store-notification v-if="!isNotificationRemoved" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import LocalStoreNotification from './components/LocalStoreNotification'
+import {mapGetters} from 'vuex'
 
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  name: 'App',
+  components: {LocalStoreNotification},
+  computed: {
+    ...mapGetters(['isNotificationRemoved'])
+  },
+  data () {
+    return {
+      notificationRemoved: true
+    }
+  },
+  async created () {
+    await this.$store.dispatch('fetchNotificationAcknowledged')
   }
 }
 </script>
@@ -24,5 +38,14 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#wrap {
+    min-height: 100%;
+}
+
+#main {
+    padding: 20px;
+    overflow: auto;
 }
 </style>

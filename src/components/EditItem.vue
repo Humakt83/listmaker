@@ -24,7 +24,7 @@ export default {
     }
   },
   methods: {
-    cancel (index) {
+    cancel () {
       this.$emit('cancel')
     },
     changeItem () {
