@@ -11,8 +11,10 @@ import Vue from 'vue'
 
 Vue.use(Vuex)
 
+const DEFAULT_LIST = 'default'
+
 const state = {
-  defaultList: {name: 'default', items: []},
+  defaultList: {name: DEFAULT_LIST, items: []},
   notificationRemoved: true,
   savedLists: [],
   activeList: null
@@ -35,7 +37,7 @@ const mutations = {
 
 const getters = {
   getList: state => {
-    return state.activeList || state.defaultList || {name: 'default', items: []}
+    return state.activeList || state.defaultList
   },
   getItemsInList: (state, getters) => getters.getList.items,
   isNotificationRemoved: state => state.notificationRemoved,
@@ -45,9 +47,15 @@ const getters = {
 }
 
 const actions = {
-  updateList (context, list) {
-    updateList(list)
-    context.commit('updateItemList', list)
+  async updateList (context, list) {
+    if (list.name === DEFAULT_LIST) {
+      updateList(list)
+      context.commit('updateItemList', list)
+    } else {
+      await saveList(list)
+      const savedLists = await getSavedLists()
+      context.commit('setSavedLists', savedLists)
+    }
   },
   async fetchStoredList (context) {
     const storedList = await getStoredList()

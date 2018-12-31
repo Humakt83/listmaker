@@ -23,7 +23,7 @@ export const saveList = (list) => {
   const savedLists = getSavedLists()
   const savedList = savedLists.find(l => l.name === list.name)
   if (savedList) {
-    savedList.listItems = list.listItems
+    savedList.items = list.items
     savedList.name = list.name
   } else {
     savedLists.push(list)
