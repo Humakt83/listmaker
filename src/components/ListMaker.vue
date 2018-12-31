@@ -6,7 +6,7 @@
     <input type="button" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
     <input type="button" value="SAVE LIST" @click="openSave = true">
     <input type="button" value="LOAD LIST" @click="openLoad = true" :disabled="getSavedListNames.length < 1">
-    <input type="button" value="CLEAR LIST" @click="clearList">
+    <input type="button" :value="`${getList.name === 'default' ? 'CLEAR':'DELETE'} LIST`" @click="clearList">
     <div class="content">
       <List />
       <div id="textList" v-show="showTextList">
@@ -70,7 +70,7 @@ export default {
     clearList () {
       const usedList = this.getList
       usedList.items = []
-      this.$store.dispatch('updateList', usedList)
+      this.$store.dispatch('clearOrDeleteList', usedList)
     },
   }
 }

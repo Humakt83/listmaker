@@ -30,3 +30,9 @@ export const saveList = (list) => {
   }
   localStorage.setItem(STORAGE_SAVED_LISTS, JSON.stringify(savedLists))
 }
+
+export const deleteList = (list) => {
+  const savedLists = getSavedLists()
+  const filtered = savedLists.filter(l => l.name !== list.name)
+  localStorage.setItem(STORAGE_SAVED_LISTS, JSON.stringify(filtered))
+}

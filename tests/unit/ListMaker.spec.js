@@ -15,7 +15,7 @@ const store = new Vuex.Store({
 })
 
 describe('ListMaker.vue', () => {
-  it('renders props.msg when passed', () => {
+  it('renders', () => {
     const wrapper = shallowMount(ListMaker, {store, localVue})
     wrapper.setData({fetched: true})
     expect(wrapper.find('#addItemToList').element.getAttribute('value')).toEqual('ADD ITEM')

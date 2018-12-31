@@ -4,7 +4,8 @@ import {
   isNotificationAcknowledged,
   removeNotification,
   getSavedLists,
-  saveList
+  saveList,
+  deleteList
   } from './api/local-store'
 import Vuex from 'vuex'
 import Vue from 'vue'
@@ -21,7 +22,7 @@ const state = {
 }
 
 const mutations = {
-  updateItemList (state, items) {
+  updateDefaultList (state, items) {
     Vue.set(state, 'defaultList', items)
   },
   setNotification (state, value) {
@@ -29,6 +30,9 @@ const mutations = {
   },
   setSavedLists (state, value) {
     state.savedLists = value
+    if (state.activeList) {
+      state.activeList = state.savedLists.find(l => l.name === state.activeList.name)
+    }
   },
   setActiveList (state, name) {
     state.activeList = state.savedLists.find(l => l.name === name)
@@ -50,7 +54,7 @@ const actions = {
   async updateList (context, list) {
     if (list.name === DEFAULT_LIST) {
       updateList(list)
-      context.commit('updateItemList', list)
+      context.commit('updateDefaultList', list)
     } else {
       await saveList(list)
       const savedLists = await getSavedLists()
@@ -59,7 +63,7 @@ const actions = {
   },
   async fetchStoredList (context) {
     const storedList = await getStoredList()
-    context.commit('updateItemList', storedList)
+    context.commit('updateDefaultList', storedList)
   },
   async fetchNotificationAcknowledged (context) {
     const acknowledged = await isNotificationAcknowledged()
@@ -79,7 +83,18 @@ const actions = {
   async addOrUpdateSavedList (context, list) {
     await saveList(list)
     const savedLists = await getSavedLists()
-    context.commit('setSavedLists', savedLists)
+    await context.commit('setSavedLists', savedLists)
+    context.commit('setActiveList', list.name)
+  },
+  async clearOrDeleteList (context, list) {
+    if (list.name !== DEFAULT_LIST) {
+      await deleteList(list)
+      const savedLists = await getSavedLists()
+      context.commit('setSavedLists', savedLists)
+    } else {
+      updateList(list)
+      context.commit('updateDefaultList', list)
+    }
   }
 }
 
