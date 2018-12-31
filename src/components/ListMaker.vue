@@ -16,6 +16,7 @@
     <paste-list v-if="openPaste" @cancel="openPaste = false" @addPasteList="addPasteList" />
     <save-list v-if="openSave" @close="openSave = false" :items="getList.items" />
     <load-list v-if="openLoad" @close="openLoad = false" />
+    <a v-if="whatsAppMessage.length > 0" :href="`https://wa.me/?text=${whatsAppMessage}`">Share on WhatsApp</a>
   </div>
 </template>
 
@@ -41,8 +42,12 @@ export default {
   computed: {
     ...mapGetters(['getList', 'getSavedListNames']),
     textList () {
-      return !this.getList || !this.getList.items ? []
+      return !this.getList || !this.getList.items ? ''
         : this.getList.items.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
+    },
+    whatsAppMessage () {
+      const message = this.textList.replace('<br>', '\r\n')      
+      return message.length > 0 ? window.encodeURIComponent(message) : ''
     }
   },
   async created () {
