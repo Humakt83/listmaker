@@ -46,7 +46,7 @@ export default {
         : this.getList.items.reduce((previous, current, index) => previous + `<br>${++index}. ${current}`, '')
     },
     whatsAppMessage () {
-      const message = this.textList.replace('<br>', '\r\n')      
+      const message = this.textList.replace(/<br>/g, '\r\n')
       return message.length > 0 ? window.encodeURIComponent(message) : ''
     }
   },
