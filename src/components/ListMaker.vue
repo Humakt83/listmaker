@@ -1,7 +1,9 @@
 <template>
   <div v-if="fetched">
-    <input type="text" ref="itemInput" id="itemInput" placeholder="Type item name here">
-    <input type="submit" id="addItemToList" value="ADD ITEM" @click="addItem()">
+    <form @submit="addItem()">
+      <input type="text" ref="itemInput" id="itemInput" placeholder="Type item name here">
+      <input type="submit" id="addItemToList" value="ADD ITEM">
+    </form>
     <input type="button" @click="openPaste = true" value="PASTE LIST">
     <input type="button" :value="showTextList ? 'HIDE TEXT LIST' : 'SHOW LIST AS TEXT'" @click="toggleShowListAsText">
     <input type="button" value="SAVE LIST" @click="openSave = true">
@@ -83,6 +85,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+form {
+  display: inline-block;
+}
+
 input[type=button],
 input[type=submit] {
   background-color: rgb(165, 165, 165);
